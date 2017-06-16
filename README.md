@@ -22,6 +22,7 @@ For example I will create a class called Login.
  Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
  of Lorem Ipsum.
 */
+```
 
 ## Environment Setup
 In order for you to develop the SmartNoteServer you need to have the appropriate environment, in this section we will talk about setting up your environment.
