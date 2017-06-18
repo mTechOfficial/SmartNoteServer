@@ -2,8 +2,8 @@
   session_start();
   include_once("config.php");
 
-  $email=$_GET['email'];
-  $password=$_GET['password'];
+  $email=$_POST['email'];
+  $password=$_POST['password'];
 
   if(isset($_POST) && $email!='' && $password!=''){
     $sql=$dbh->prepare("SELECT * FROM users WHERE email=?");
