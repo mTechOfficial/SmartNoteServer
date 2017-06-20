@@ -5,12 +5,16 @@
   if(isset($_POST['submit'])){
     if(isset($_POST['email']) && isset($_POST['password'])){
 
+      $email = $_POST['email'];
       $password=$_POST['password'];
       $sql=$dbh->prepare("SELECT COUNT(*) FROM `users` WHERE `email`=?");
       $sql->execute(array($_POST['email']));
 
       if($sql->fetchColumn()!=0){
-       die("User Exists");
+        $response["error"] = 1;
+        $response["success"] = 0;
+        $response["email"] = $email;
+        $response["result"] = 0;
       }
       else
       {
@@ -29,9 +33,20 @@
         $salted_hash = hash('sha256', $password.$site_salt.$p_salt);
 
         $sql=$dbh->prepare("INSERT INTO `users` (`ID`, `email`, `password`, `psalt`) VALUES (NULL, ?, ?, ?);");
-        $sql->execute(array($_POST['email'], $salted_hash, $p_salt));
-        echo "Successfully Registered.";
+        if($sql->execute(array($_POST['email'], $salted_hash, $p_salt)) == TRUE) {
+          $response["error"] = 0;
+          $response["success"] = 1;
+          $response["email"] = $email;
+          $response["result"] = 1;
+        }
+        else{
+          $response["error"] = 1;
+          $response["success"] = 0;
+          $response["email"] = $email;
+          $response["result"] = 2;
+        }
       }
+      echo json_encode($response);
     }
   }
 ?>
